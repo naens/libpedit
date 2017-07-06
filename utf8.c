@@ -1,5 +1,7 @@
 #include <string.h>
 
+#include <stdio.h>
+
 #include "pedit.h"
 
 void ch_ucs32_to_utf8(uint32_t chr, int *sz, uint8_t *buf)
@@ -54,11 +56,11 @@ uint8_t *ch_utf8_to_ucs32(uint8_t *p8, uint32_t *ch32)
   return p8;
 }
 
-void str_ucs32_to_utf8(uint32_t *str32, int *sz, uint8_t *str8)
+void str_ucs32_to_utf8(uint32_t *str32, uint8_t *str8)
 {
   uint32_t *p32 = str32;
   uint8_t *p8 = str8;
-  while (p32)
+  while (*p32)
   {
     int sz;
     ch_ucs32_to_utf8(*p32, &sz, p8);
@@ -67,12 +69,13 @@ void str_ucs32_to_utf8(uint32_t *str32, int *sz, uint8_t *str8)
   }
 }
 
-void str_utf8_to_ucs32(uint8_t *str8, int *sz, uint32_t *str32)
+void str_utf8_to_ucs32(uint8_t *str8, uint32_t *str32)
 {
     uint8_t *p8 = str8;
     uint32_t *p32 = str32;
-    while (p8)
+    while (*p8)
     {
+//      printf("<%02x>\n", *p8);
       p8 = ch_utf8_to_ucs32(p8, p32);
       p32++;
     }
@@ -93,8 +96,15 @@ int utf8strlen(uint8_t *str)
 {
   int res = 0;
   uint8_t *tmp = str;
-  while (*(tmp += utf8chrlen(tmp)))
+  while (*tmp)
+  {
+//    printf("utf8strlen: tmp=%02x\n", *tmp);
+    int chrlen = utf8chrlen(tmp);
+//    printf("chrlen=%d\n", chrlen);
+    tmp += chrlen;
     res++;
+  }
+//  printf("res=%d\n", res);
   return res;
 }
 
@@ -102,7 +112,10 @@ int ucs32strlen(uint32_t *str)
 {
   int res = 0;
   uint32_t *tmp = str;
-  while (*(tmp++))
+  while (*tmp)
+  {
     res++;
+    tmp++;
+  }
   return res;
 }

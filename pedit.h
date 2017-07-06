@@ -20,8 +20,8 @@ void gst_get_longest_strings(struct gst *gst, int *count, uint32_t ***strings);
 void ch_ucs32_to_utf8(uint32_t chr, int *sz, uint8_t *buf);
 uint8_t *ch_utf8_to_ucs32(uint8_t *p8, uint32_t *ch32);
 
-void str_ucs32_to_utf8(uint32_t *st32, int *sz, uint8_t *str8);
-void str_utf8_to_ucs32(uint8_t *str8, int *sz, uint32_t *str32);
+void str_ucs32_to_utf8(uint32_t *st32, uint8_t *str8);
+void str_utf8_to_ucs32(uint8_t *str8, uint32_t *str32);
 
 int utf8chrlen(uint8_t *chr);
 int utf8strlen(uint8_t *str);
