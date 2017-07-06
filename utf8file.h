@@ -11,6 +11,7 @@ int copyutf8char(char *dest, char *src);
 int getutf8pos(char *str, int pos);
 
 /* skip bom in utf8 files, do nothing if no bom */
+int utf8writebom(FILE *f);
 int utf8skipbom(FILE *f);
 
 uint32_t read_utf8(FILE *f);

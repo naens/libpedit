@@ -123,7 +123,6 @@ int getutf8pos(char *str, int pos)
     return -1; /* error */
 }
 
-/*
 int utf8writebom(FILE *f)
 {
   if (fputc(0xEF, f) == EOF)
@@ -134,7 +133,6 @@ int utf8writebom(FILE *f)
     return -1;
   return 0;
 }
-*/
 
 int utf8skipbom(FILE *f)
 {
