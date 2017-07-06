@@ -1,2 +1,2 @@
-#+TITLE: libpedit
+#+TITLE: pedit-util
 Text tools and functions for pedit and tofolder projects
