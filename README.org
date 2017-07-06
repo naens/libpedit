@@ -1,0 +1,2 @@
+#+TITLE: libpedit
+Text tools and functions for pedit and tofolder projects
