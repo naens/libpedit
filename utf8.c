@@ -67,6 +67,7 @@ void str_ucs32_to_utf8(uint32_t *str32, uint8_t *str8)
     p8 += sz;
     p32++;
   }
+  *p8 = 0;
 }
 
 void str_utf8_to_ucs32(uint8_t *str8, uint32_t *str32)
@@ -79,6 +80,7 @@ void str_utf8_to_ucs32(uint8_t *str8, uint32_t *str32)
       p8 = ch_utf8_to_ucs32(p8, p32);
       p32++;
     }
+    *p32 = 0;
 }
 
 int utf8chrlen(uint8_t *chr)
