@@ -1,49 +1,12 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 
 #include "pedit.h"
+#include "gst_struct.h"
 
 struct edge;
 
-struct node
-{
-  int id;
-  int edge_list_sz;
-  struct edge **edge_list;
-  struct node *sl;
-  int sid_list_sz;
-  int *sid_list;
-  struct node *parent;
-};
-
-struct ap
-{
-  struct node *node;
-  uint32_t ch;
-  int pos;
-};
-
-struct edge
-{
-  int sid;
-  int from;
-  int to;
-  struct node *end;
-};
-
-struct gst
-{
-  int *sa_sid_sz;		/* size of each sa[sid] */
-  uint32_t **sa;
-  int sid;
-  int n;
-  int rem;
-  int nid;
-  struct ap *ap;
-  struct node *root;
-};
 
 /* initial size of dynamic arrays */
 int DYN_SZ = 8;
@@ -265,6 +228,11 @@ void new_edge(struct node *node, int sid, int from, int ch)
 struct node *new_node(struct node *prev, struct gst *gst, uint32_t ch)
 {
   struct edge *aedge = edge_by_char(gst->sa, gst->ap->node, gst->ap->ch);
+  if (aedge == 0)
+  {
+    gst_print_tree(gst);
+    exit(1);
+  }
 
   /* new node + edges */
   struct node *new_node = create_node(++gst->nid);
@@ -304,7 +272,10 @@ void rem_loop(struct gst *gst, uint32_t ch)
   struct node *prev = 0;
   while (gst->rem > 0)
     {
-      if (prev && gst->rem > 1 && gst->ap->pos == 0)
+/*      if (prev && gst->rem > 1 && gst->ap->pos == 0) */
+/* TODO: temporary fix: TODO: test!!! */
+      if (prev && gst->rem > 1 && gst->ap->pos == 0
+                                && prev->sl->id == gst->root->id)
 	prev->sl = gst->ap->node;
       if (match_ap(gst->sa, gst->ap, ch))
 	{
@@ -314,7 +285,10 @@ void rem_loop(struct gst *gst, uint32_t ch)
       else
 	{
 	  if (gst->ap->pos)
+	  {
+	    struct node *old_prev = prev;
 	    prev = new_node(prev, gst, ch);
+          }
 	  else
 	    new_edge(gst->ap->node, gst->sid, gst->n - 1, ch);
 	  update_ap(gst);
@@ -469,10 +443,6 @@ void node_strings(uint32_t **sa, struct node *node, int *nsz, uint32_t ***nss, i
       if (esz)
     free(ess);
     }
-  /* wprintf(L"NODE@%d  [3] nsz=%d\n", node->id, *nsz); */
-  /* wprintf(L"NODE@%d  [3] nsz=%d ", node->id, *nsz); */
-  /* for(int z = 0; z < *nsz; z++) wprintf(L" \"%S\"", (*nss)[z]); */
-  /* wprintf(L"\n");	*/
 }
 
 void gst_get_strings(struct gst *gst, int *count, uint32_t ***strings)
