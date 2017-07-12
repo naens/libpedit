@@ -55,3 +55,8 @@ dkms.conf
 DEADJOE
 convtest
 trslt
+texthdr
+lcs
+lcsc
+
+vgcore.*
