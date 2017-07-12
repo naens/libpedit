@@ -1,2 +1,8 @@
 #+TITLE: pedit-util
 Text tools and functions for pedit and tofolder projects
+
+* TODO
+ * add test strings
+
+* test strings:  
+~./lcs dodo54 dodo adodol3~
