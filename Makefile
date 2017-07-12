@@ -13,6 +13,6 @@ clean:
 
 install: a
 	mkdir -pv ~/bin ~/lib ~/include
-	cp trslt texthdr ~/bin
+	cp trslt texthdr lcs ~/bin
 	cp libpedit.a ~/lib
 	cp pedit.h ~/include
